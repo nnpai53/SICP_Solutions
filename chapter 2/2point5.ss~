@@ -1,0 +1,8 @@
+(define (cons-alt x y)
+  (* (expt 2 x) (expt 3 y)))
+
+(define (car-alt z)
+  ())
+
+(define (cdr-alt z)
+  ())

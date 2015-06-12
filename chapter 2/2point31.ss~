@@ -1,0 +1,5 @@
+(define (tree-map proc tree)
+  )
+
+(define (square-tree tree)
+  (tree-map square tree))

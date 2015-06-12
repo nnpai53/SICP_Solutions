@@ -1,0 +1,4 @@
+(define (pasc n k)
+  (cond ((< n k) 0)
+        ((= n k) 1)
+        (else (+ (pasc (-1 n) k)) (pasc (-1 n) (-1 k)))))

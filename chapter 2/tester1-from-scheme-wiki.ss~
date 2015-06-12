@@ -1,0 +1,10 @@
+(define (branch-weight branch) 
+   (let ((s (branch-structure branch))) 
+     (if (structure-is-mobile? s) 
+         (total-weight s) 
+         s))) 
+  
+(define (total-weight mobile) 
+   (+ (branch-weight (left-branch mobile)) 
+      (branch-weight (right-branch mobile)))) 
+  

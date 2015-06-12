@@ -1,0 +1,19 @@
+(define (fold-right op init sequence)
+  (if (null? sequence)
+      init
+      (op (car sequence)
+          (fold-right op init (cdr sequence)))))
+
+(define (fold-left op initial sequence)
+  (define (iter result rest)
+    (if (null? rest)
+        result
+        (iter (op result (car rest))
+              (cdr rest))))
+  (iter initial sequence))
+
+(define (reverse sequence)
+  (fold-right (lambda (x y) ()) '() sequence))
+
+(define (reverse sequence)
+  (fold-left (lambda (x y) ()) '() sequence))

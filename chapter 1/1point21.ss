@@ -1,0 +1,10 @@
+(define (square x)
+  (* x x))
+
+(define (smallest-divisor n)
+  (find-divisor n 2))
+
+(define (find-divisor number div)
+  (cond ((> (square div) number) number)
+        ((= (remainder number div) 0) div)
+        (else (find-divisor number (+ 1 div)))))

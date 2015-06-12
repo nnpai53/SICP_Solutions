@@ -1,0 +1,49 @@
+(define (filtered-accumulate filter combiner null-value term a next b)
+  (cond ((> a b) null-value)
+        ((filter a) (combiner (term a) (filtered-accumulate filter combiner null-value term (next a) next b)))
+        (else (filtered-accumulate filter combiner null-value term (next a) next b))))
+
+(define (iter-filtered-accumulate filter combiner null-value term a next b)
+  (define (iter-result x result)
+    (cond ((> x b) result)
+          ((filter x) (iter-result (next x) (combiner (term x) result)))
+          (else (iter-result (next x) result))))
+  (iter-result a null-value))
+
+(define (square-prime a b)
+  (filtered-accumulate isprime + 0 square a inc b))
+
+(define (coprime-product n)
+  (define (coprime-n x)
+    (= (gcd x n) 1))
+  (filtered-accumulate coprime-n * 1 identity 1 inc n))
+
+(define (inc n)
+  (+ 1 n))
+
+(define (identity x)
+  x)
+
+(define (isprime n)
+  (and (not (= n 1))
+  (= n (smallest-divisor n))))
+
+(define (square x)
+  (* x x))
+
+(define (smallest-divisor n)
+  (find-divisor n 2))
+
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+
+(define (divides a b)
+  (= (remainder b a ) 0))
+
+(define (gcd-val a b)
+  (if (= b 0)
+      a
+      (gcd-val b (remainder a b))))
+   

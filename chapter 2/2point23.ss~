@@ -1,0 +1,4 @@
+(define (for-each proc some-list)
+  (if (null? (cdr some-list))
+      (proc (car some-list))
+      ((proc (car some-list)) (for-each proc (cdr some-list)))))
