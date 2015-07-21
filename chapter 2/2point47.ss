@@ -25,4 +25,11 @@
 ;; used for testing
 (define example-frame-one (make-frame 1 2 3))
 
+(origin-frame example-frame-one)
+(edge1-frame example-frame-one)
+(edge2-frame example-frame-one)
+
 (define example-frame-two (make-frame-one 4 5 6))
+(origin-frame-one example-frame-two)
+(edge1-frame-one example-frame-two)
+(edge2-frame-one example-frame-two)
