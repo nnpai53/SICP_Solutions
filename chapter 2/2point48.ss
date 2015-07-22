@@ -19,7 +19,7 @@
   (make-vect (* factor (xcor-vect some-vect)) (* factor (ycor-vect some-vect))))
 
 (define (make-segment vector1 vector2)
-  (cons vector1 vector2)
+  (cons vector1 vector2))
 
 (define (start-segment some-segment)
   (car some-segment))
