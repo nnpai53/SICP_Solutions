@@ -1,0 +1,4 @@
+(define (equal-one? list1 list2)
+  (cond ((eq? (car list1) (car list)) (equal-one? (cdr list1) (cdr list2)))
+        (else #f)))
+         

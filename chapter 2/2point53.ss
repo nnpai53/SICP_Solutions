@@ -11,7 +11,10 @@
 ;(y1 y2)
 
 (pair? (car '(a short list)))
+;#f
 
 (memq 'red '((red shoes) (blue socks)))
+;#f
 
 (memq 'red '(red shoes blue socks))
+;(red shoes blue socks)
