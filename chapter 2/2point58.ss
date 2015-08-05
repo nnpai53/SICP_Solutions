@@ -9,6 +9,9 @@
 
 (define (=number? exp num) (and (number? exp) (= exp num)))
 
+
+;; Both the solutions taken from here
+;; https://wqzhang.wordpress.com/2009/06/26/sicp-exercise-2-58/
 ;; 2.58 part a
 ;; Commented for part b
 
