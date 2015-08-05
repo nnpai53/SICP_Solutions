@@ -1,0 +1,2 @@
+(define (list-tree elements)
+  (car (partial-elements (length elements))))
