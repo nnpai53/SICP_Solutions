@@ -50,11 +50,27 @@
         ((null? list1) list2)
         (else (let ((x1 (car list1)) (x2 (car list2)))
                 (cond ((= x1 x2)
-                       (cons x1 (union-set (cdr list1) (cdr list2))))
+                       (cons x1 (union-of-lists (cdr list1) (cdr list2))))
                       ((< x1 x2)
-                       (cons x1 (union-set (cdr list1) list2)))
+                       (cons x1 (union-of-lists (cdr list1) list2)))
                       ((> x1 x2)
-                       (cons x2 (union-set list1 (cdr list2)))))))))
+                       (cons x2 (union-of-lists list1 (cdr list2)))))))))
+
+(define (intersection-set tree1 tree2)
+  (let ((list1 (tree->list-2 tree1))
+        (list2 (tree->list-2 tree2)))
+    (let ((intersected-list (intersection-of-lists list1 list2)))
+      (list-tree intersected-list))))
+
+(define (intersection-of-lists list1 list2)
+  (cond ((or (null? list2) (null? list1)) '())
+        (else (let ((x1 (car list1)) (x2 (car list2)))
+                (cond ((= x1 x2)
+                       (cons x1 (intersection-of-lists (cdr list1) (cdr list2))))
+                      ((< x1 x2)
+                       (intersection-of-lists (cdr list1) list2))
+                      ((> x1 x2)
+                       (intersection-of-lists list1 (cdr list2))))))))
 ;; example testing
 (define example-tree1 (make-tree 5 
                                  (make-tree 3 
@@ -73,3 +89,5 @@
                                             (make-tree 11 '() '()))))
 
 (union-set example-tree1 example-tree2)
+
+(intersection-set example-tree1 example-tree2)
