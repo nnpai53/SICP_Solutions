@@ -1,0 +1,15 @@
+;; pre-requisite functions used in the functions below
+(define (entry tree)
+  (car tree))
+
+(define (left-branch tree)
+  (cadr tree))
+
+(define (right-branch tree)
+  (caddr tree))
+
+(define (make-tree entry left right)
+  (list entry left right))
+
+;; actual 2.66
+;; defining lookup for tree-based representation of the records
