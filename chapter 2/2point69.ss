@@ -65,8 +65,10 @@
   (successive-merge (make-leaf-set pairs)))
 
 ;; successive-merge function to be defined
+;; this was my solution which does not give the optimal solution and is also lengthier and messier
+#|
 (define (successive-merge initial-pair-leaves)
-  (cond ((= 1 (length initial-pair-leaves)) initial-pair-leaves)
+  (cond ((= 1 (length initial-pair-leaves)) (car initial-pair-leaves))
         ((= 2 (length initial-pair-leaves)) (make-code-tree (car initial-pair-leaves)
                                                             (cadr initial-pair-leaves)))
         (else (let ((sm-remaining (successive-merge (cddr initial-pair-leaves))))
@@ -78,7 +80,23 @@
                     (make-code-tree (make-code-tree sm-remaining
                                                     (cadr initial-pair-leaves))
                                     (car initial-pair-leaves)))))))
+|#
 
+;; this solution is taken from here 
+;; http://community.schemewiki.org/?sicp-ex-2.69
+;; by chris is awesome, more intuitive and elegant
+;; btw I found the same solution here as well
+;; https://wqzhang.wordpress.com/2009/06/29/sicp-exercise-2-69/
+;; So this settles the problem :)
+
+(define (successive-merge leaf-set)
+   (if (= (length leaf-set) 1) 
+       (car leaf-set) 
+       (let ((first (car leaf-set)) 
+             (second (cadr leaf-set)) 
+             (rest (cddr leaf-set))) 
+         (successive-merge (adjoin-set (make-code-tree first second) 
+                                       rest))))) 
 ;; used for testing of the functions written
 ;(define pairs-for-trees
 ;  (list '(A 8) '(B 3) '(C 1) '(D 1) '(E 1) '(F 1) '(G 1) '(H 1)))

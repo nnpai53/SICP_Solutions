@@ -1,0 +1,32 @@
+;;The encode function designed in exercise 2.68 is given below
+#|
+(define (encode message tree)
+  (if (null? message)
+      '()
+      (append (encode-symbol (car message) tree)
+              (encode (cdr message) tree))))
+
+;; encode-symbol function to be defined
+(define (encode-symbol some-symbol tree)
+  (define (encode-1 some-symbol current-branch code-till-now)
+    (cond ((leaf? current-branch) 
+           (if (equal? (symbol-leaf current-branch) some-symbol)
+               code-till-now
+               '()))
+          ((not (exists-symbol? some-symbol (symbols current-branch))) '())
+          (else (merge-codes (encode-1 some-symbol (left-branch current-branch) (append code-till-now (list 0)))
+                             (encode-1 some-symbol (right-branch current-branch) (append code-till-now (list 1)))))))
+  (encode-1 some-symbol tree '()))
+
+(define (merge-codes code1 code2)
+  (cond ((and (null? code1) (null? code2))
+         (error "bad symbol: MERGE-CODES" (append code1 code2)))
+        ((null? code1) code2)
+        ((null? code2) code1)
+        (else (error "Something went wrong terribly" (append code1 code2)))))
+
+(define (exists-symbol? some-symbol symbols-list)
+  (cond ((null? symbols-list) #f)
+        ((equal? some-symbol (car symbols-list)) #t)
+        (else (exists-symbol? some-symbol (cdr symbols-list)))))
+#|
