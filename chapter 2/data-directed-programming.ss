@@ -69,3 +69,16 @@
           (apply proc (map contents args))
           (error "No method for these types: APPLY-GENERIC"
                  (list op type-tags))))))
+
+;; selectors used by programs, external to the packages
+(define (real-part z) (apply-generic 'real-part z))
+(define (imag-part z) (apply-generic 'imag-part z))
+(define (magnitude z) (apply-generic 'magnitude z))
+(define (angle z) (apply-generic 'angle z))
+
+;; constructors used by programs, external to the packages
+(define (make-from-real-imag x y)
+  ((get 'make-from-real-imag 'rectangular) x y))
+
+(define (make-from-mag-ang r a)
+  ((get 'make-from-mag-ang 'polar) r a))
