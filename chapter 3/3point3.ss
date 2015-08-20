@@ -1,0 +1,25 @@
+(#%require racket/base)
+(#%require racket/list)
+
+(define (make-account balance account-password)
+    (define (withdraw amount)
+        (if (>= balance amount)
+            (begin (set! balance (- balance amount))
+                   balance)
+            "Insufficient Funds"))
+    (define (deposit amount)
+        (begin (set! balance (+ balance amount))
+               balance))
+    (define (dispatch entered-password m)
+        (if (eq? entered-password account-password)
+            (cond ((eq? m 'withdraw ) withdraw)
+                   ((eq? m 'deposit) deposit)
+                   (else (error "Unknown request: MAKE-ACCOUNT"
+                                m)))
+            (error "Incorrect-password: Request not processed" )))
+    dispatch)
+
+;; used for testing purposed
+(define acc (make-account 100 'secret-password))
+((acc 'secret-password 'withdraw) 40)
+((acc 'some-other-password 'deposit) 50)

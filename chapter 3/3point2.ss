@@ -1,0 +1,22 @@
+(define (make-monitored f)
+    (define call-counter 0)
+    (define reset-call-counter
+        (begin (set! call-counter 0)))
+    (define (mf m)
+        (cond ((eq? m 'how-many-calls?) call-counter)
+              ((eq? m 'reset-count) reset-call-counter)
+              (else (begin (set! call-counter (+ 1 call-counter))
+                           (f m)))))
+    mf)
+
+;; used for testing
+(define s (make-monitored sqrt))
+(s 100)
+(s 'how-many-calls?)
+(s 10)
+(s 9)
+(s 36)
+(s 'how-many-calls?)
+(define p (make-monitored sqrt))
+(p 64)
+(p 'how-many-calls?)
