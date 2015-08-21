@@ -1,0 +1,20 @@
+(#%require racket/base)
+(#%require racket/list)
+
+(define (rand some-message)
+    (define x random-init)
+    (define generate-random
+        (lambda ()
+            (set! x (rand-update x))
+            x))
+    (define reset-value
+        (lambda (y)
+            (set! x y)))
+    (define (dispatch)
+        (cond ((eq? some-message 'generate) (generate-random))
+              ((eq? some-message 'reset) reset-value)
+              (else #f)))
+    dispatch)
+
+;; used for testing the function
+(define arand-test ((rand 'reset) 100))

@@ -1,21 +1,14 @@
-(#%require racket/base)
-(#%require racket/list)
-
 (define (square x)
     (* x x))
 
 (define (estimate-integral some-predicate? lower-x lower-y upper-x upper-y number-of-trials)
-    (define radius  (/ (+ (/ (- upper-x lower-x) 2) (/ (- upper-y lower-y) 2)) 2))
+    (define radius  (/ (+ (/ (- upper-x lower-x) 2) (/ (- upper-y lower-y) 2)) 2) )
     (define xCentre (/ (- upper-x lower-x) 2))
     (define yCentre (/ (- upper-y lower-y) 2))
-    (define rand-x
-      (lambda ()
-        (+ (random-in-range lower-x upper-x) (random))))
-    (define rand-y
-      (lambda ()
-        (+ (random-in-range lower-y upper-y) (random))))
-    (define (the-experiment)
-        (some-predicate? xCentre yCentre (rand-x) (rand-y) radius))
+    (define experiment
+        (let ((xPoint (random-in-range lower-x upper-x))
+              (yPoint (random-in-range lower-y upper-y)))
+            (some-predicate? xCentre yCentre xPoint yPoint)))
     (define (monte-carlo trials experiment)
         (define (iter trials-remaining trials-passed)
             (cond ((= trials-remaining 0)
@@ -26,14 +19,14 @@
                   (else (iter (- trials-remaining 1)
                               trials-passed))))
         (iter trials 0))
-    (* (- upper-y lower-y) (- upper-x lower-x) (monte-carlo number-of-trials the-experiment)))
+    (* (- upper-y lower-y) (- upper-x lower-x) (monte-carlo number-of-trials some-predicate?)))
 
 (define (inside-Circle xCentre yCentre xPoint yPoint radius)
-    (<= (+ (square (- xCentre xPoint)) (square (- yCentre yPoint))) (square radius)))
+    (< (+ (square (- xCentre xPoint)) (square (- yCentre yPoint))) (square radius)))
 
 (define (random-in-range low high)
     (let ((range (- high low)))
         (+ low (random range))))
 
 ;; used for testing, verified by the value of pi
-(estimate-integral inside-Circle 0 0 2 2 10000)
+(estimate-integral inside-Circle 0 0 2 2 500)
